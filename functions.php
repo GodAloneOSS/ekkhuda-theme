@@ -230,3 +230,114 @@ function ek_default_menu() {
 
 /* ---- Body class helper so front-page sections style correctly ---- */
 add_filter('body_class', function ($c) { $c[] = 'ek'; return $c; });
+
+
+/* ============================================================
+ * Advanced Search Engine (kh_index) — Hindi (ekkhuda.org)
+ * ============================================================ */
+
+add_action('init', function () {
+    register_post_type('kh_index', array(
+        'label' => 'Search Index',
+        'public' => false,
+        'publicly_queryable' => true,
+        'exclude_from_search' => false,
+        'show_ui' => false,
+        'supports' => array('title', 'excerpt', 'editor'),
+    ));
+});
+
+add_action('pre_get_posts', function ($q) {
+    if (is_admin() || !$q->is_main_query() || !$q->is_search()) return;
+    $pt = $q->get('post_type');
+    if (empty($pt)) $pt = array('post', 'page');
+    if (!is_array($pt)) $pt = array($pt);
+    if (!in_array('kh_index', $pt, true)) $pt[] = 'kh_index';
+    $q->set('post_type', $pt);
+});
+
+function kh_index_url($post_id) {
+    $u = get_post_meta($post_id, '_kh_url', true);
+    return $u ? $u : get_permalink($post_id);
+}
+
+/* ---------- Highlighting ---------- */
+function kh_highlight_plain($text, $q) {
+    $q = trim((string) $q);
+    $safe = esc_html($text);
+    if ($q === '') return $safe;
+    $safe = preg_replace('/(' . preg_quote(esc_html($q), '/') . ')/iu', '<mark class="srch-hl">$1</mark>', $safe);
+    return $safe;
+}
+function kh_highlight_excerpt($text, $q, $len = 220) {
+    $q = trim((string) $q);
+    $text = wp_strip_all_tags($text);
+    if ($q !== '' && mb_stripos($text, $q) !== false) {
+        $pos = mb_stripos($text, $q);
+        $start = max(0, $pos - 80);
+        $excerpt = ($start > 0 ? '… ' : '') . mb_substr($text, $start, $len) . (mb_strlen($text) > $start + $len ? ' …' : '');
+    } else {
+        $excerpt = mb_substr($text, 0, $len) . (mb_strlen($text) > $len ? ' …' : '');
+    }
+    return kh_highlight_plain($excerpt, $q);
+}
+
+/* ---------- Verse-number detection ---------- */
+function kh_looks_like_verse($q) {
+    $q = trim((string) $q);
+    if ($q === '') return false;
+    if (preg_match('/^\d{1,3}\s*[:.\-]\s*\d{1,3}$/', $q)) return true;
+    if (preg_match('/^\d{1,3}$/', $q)) {
+        $n = (int) $q;
+        if ($n >= 1 && $n <= 114) return true;
+    }
+    return false;
+}
+
+function kh_enrich_content($title, $fallback) {
+    $map = array(
+        'ज़रूरी दान (ज़कात)' => 'ज़कात हमारी शुद्ध आमदनी का 2.5% है, जो मिलने वाले दिन ही अदा करनी ज़रूरी है। ज़रूरी दान (ज़कात) फ़सल की कटाई वाले दिन ही अदा किया जाना चाहिए (6:141)। जब भी हमें शुद्ध आमदनी मिले, हमें उसका 2.5% अलग रखकर वालिदैन, रिश्तेदारों, यतीमों, ग़रीबों और मुसाफ़िर को देना चाहिए, इसी तरतीब में (2:215)। मेरी रहमत हर चीज़ को घेरे हुए है, मगर मैं इसे उन नेक लोगों के लिए ख़ास करता हूं जो ज़कात देते हैं (7:156)। क़ुरआन 6:141, 2:215, 7:156।',
+        '19 कैलकुलेटर' => 'बड़ी से बड़ी संख्या को 19 से तक़सीम करने का आसान कैलकुलेटर — कोई भी लंबी संख्या 19 से तक़सीम होती है या नहीं, फ़ौरन मालूम करें। क़ुरआन में 114 सूरतें हैं = 19x6। लफ़्ज़ "अल्लाह" 2698 बार आया है = 19x142। क़ुरआन में कुल 6346 आयतें हैं = 19x334। "उस पर उन्नीस हैं" — क़ुरआन 74:30। क़ुरआन का रियाज़ी (गणितीय) मोजज़ा, संख्या 19 पर आधारित।',
+    );
+    return isset($map[$title]) ? ($map[$title] . ' ' . $fallback) : $fallback;
+}
+
+function kh_seed_index_items() {
+    return array(
+        array('title' => 'ज़रूरी दान (ज़कात)', 'url' => home_url('/zakat-calculator/'), 'excerpt' => 'अपनी शुद्ध आमदनी का 2.5% ज़कात रक़म फ़ौरन हिसाब लगाएं।'),
+        array('title' => '19 कैलकुलेटर', 'url' => home_url('/calculator-19/'), 'excerpt' => 'कोई भी संख्या 19 से तक़सीम होती है या नहीं, फ़ौरन जांचें।'),
+    );
+}
+
+function kh_seed_index() {
+    foreach (kh_seed_index_items() as $it) {
+        $key = 'kh_' . md5($it['url']);
+        $existing = get_posts(array('post_type' => 'kh_index', 'meta_key' => '_kh_key', 'meta_value' => $key, 'posts_per_page' => 1, 'post_status' => 'any'));
+        $postarr = array(
+            'post_type' => 'kh_index',
+            'post_status' => 'publish',
+            'post_title' => $it['title'],
+            'post_excerpt' => $it['excerpt'],
+            'post_content' => kh_enrich_content($it['title'], $it['excerpt']),
+        );
+        if ($existing) {
+            $postarr['ID'] = $existing[0]->ID;
+            wp_update_post($postarr);
+            $pid = $existing[0]->ID;
+        } else {
+            $pid = wp_insert_post($postarr);
+        }
+        if ($pid && !is_wp_error($pid)) {
+            update_post_meta($pid, '_kh_key', $key);
+            update_post_meta($pid, '_kh_url', $it['url']);
+        }
+    }
+}
+
+add_action('init', function () {
+    $ver = 'kh1.0.0';
+    if (get_option('kh_index_seeded_ver') !== $ver) {
+        kh_seed_index();
+        update_option('kh_index_seeded_ver', $ver);
+    }
+}, 20);
