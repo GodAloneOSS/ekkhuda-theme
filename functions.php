@@ -10,7 +10,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-if (!defined('EK_VER')) define('EK_VER', '1.1.1');
+if (!defined('EK_VER')) define('EK_VER', '1.1.2');
 
 /* ---- Calculator-19 page routing (no wp-admin page exists for this slug) ---- */
 add_action('init', function () {
@@ -211,7 +211,7 @@ function ek_default_menu() {
 		array('📱', 'क़ुरआन डाउनलोड', home_url('/downloads'), ''),
 		array('🎧', 'क़ुरआन ऑडियो', home_url('/audio-quran'), ''),
 		array('🛒', 'क़ुरआन ख़रीदें', '#buy', 'buy'),
-		array('📚', 'लाइब्रेरी', 'https://godalone.in/library/', '_blank'),
+		array('📚', 'लाइब्रेरी', 'https://ekkhuda.org/library/', ''),
 		array('🎥', 'वीडियो', home_url('/videos'), ''),
 		array('🤖', 'Telegram बॉट', 'https://t.me/quranalonebot', '_blank'),
 		array('❤️', 'ख़ैराती ट्रस्ट', home_url('/charity'), ''),
