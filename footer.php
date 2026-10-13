@@ -29,7 +29,7 @@
       <h4>मालूमात</h4>
       <ul>
         <li><a href="<?php echo esc_url(home_url('/audio-quran')); ?>">🎧 क़ुरआन ऑडियो</a></li>
-        <li><a href="https://godalone.in/library/" target="_blank" rel="noopener">📚 लाइब्रेरी</a></li>
+        <li><a href="https://ekkhuda.org/library/">📚 लाइब्रेरी</a></li>
         <li><a href="<?php echo esc_url(home_url('/videos')); ?>">🎥 वीडियो</a></li>
         <li><a href="<?php echo esc_url(home_url('/calculator-19')); ?>">🔢 19 कैलकुलेटर</a></li>
         <li><a href="https://19code.org/en/" target="_blank" rel="noopener">🔬 19code.org</a></li>
