@@ -30,8 +30,8 @@ try{var t=localStorage.getItem('ekTheme3');if(t==='day')document.documentElement
       </div>
 
       <a href="<?php echo esc_url(home_url('/')); ?>" class="brand brand-logo" aria-label="EkKhuda.org — ख़ुशी सिर्फ़ अल्लाह की इताअत में है">
-  <img class="logo-dark" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-dark.png" alt="EkKhuda.org">
-  <img class="logo-light" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-light.png" alt="EkKhuda.org">
+  <img class="logo-dark" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-dark.png?v=nl3" alt="EkKhuda.org">
+  <img class="logo-light" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-light.png?v=nl3" alt="EkKhuda.org">
  </a>
  <div class="brand-text">
   <span class="bn">एक ख़ुदा</span>
@@ -45,6 +45,14 @@ try{var t=localStorage.getItem('ekTheme3');if(t==='day')document.documentElement
         <a href="https://www.kadavulmattum.org" rel="noopener">தமிழ்</a>
         <span class="on">हिं</span>
       </div>
+
+				<div class="ghlang" id="ghLang">
+					<button type="button" class="ic ghlang-btn" id="ghLangBtn" aria-label="Change language" aria-haspopup="true" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3c2.5 2.6 3.8 5.7 3.8 9S14.5 18.4 12 21C9.5 18.4 8.2 15.3 8.2 12S9.5 5.6 12 3z"></path></svg></button>
+					<div class="ghlang-menu" role="menu"><a href="https://godalone.in" rel="noopener">English</a>
+            <a href="https://www.kadavulmattum.org" rel="noopener">தமிழ்</a>
+            <span class="on">हिंदी</span></div>
+				</div>
+
 
       <div class="srchw" id="ghSrchw">
         <button class="ic" id="ghSearchBtn" aria-label="खोजें" type="button">
@@ -61,3 +69,11 @@ try{var t=localStorage.getItem('ekTheme3');if(t==='day')document.documentElement
 </header>
 
 <main id="ga-main">
+
+<script>
+(function(){var w=document.getElementById("ghLang");if(!w)return;var b=w.querySelector(".ghlang-btn");
+b.addEventListener("click",function(e){e.stopPropagation();var o=w.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});
+document.addEventListener("click",function(e){if(!w.contains(e.target)){w.classList.remove("open");b.setAttribute("aria-expanded","false");}});
+document.addEventListener("keydown",function(e){if(e.key==="Escape"){w.classList.remove("open");b.setAttribute("aria-expanded","false");}});
+})();
+</script>
