@@ -13,7 +13,7 @@ get_header();
 
 <div class="page-hero">
 <div class="wrap">
-<div class="crumb">Ekkhuda.org</div>
+<div class="crumb">EkKhuda.org</div>
 <h1 class="reveal">क़ुरआन डाउनलोड</h1>
 <p class="hero-sub">आख़िरी वसीयतनामा — इंसानियत के लिए अल्लाह का पैग़ाम — कई फ़ॉर्मैट
 और ज़बानों में डाउनलोड करें, इंशा'अल्लाह।</p>
