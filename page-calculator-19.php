@@ -13,7 +13,7 @@ get_header();
 ?>
 <div class="page-hero">
   <div class="wrap">
-    <div class="crumb">Ekkhuda.org</div>
+    <div class="crumb">EkKhuda.org</div>
     <h1 class="reveal">🔢 19 कैलकुलेटर</h1>
     <p class="reveal c19-sub">बड़ी से बड़ी संख्या को 19 से तक़सीम करने का आसान कोलकुलेटर — चाहे संख्या कितनी भी लंबी हो, फ़ौरन जांच करता है कि वह 19 से तक़सीम होती है या नहीं।</p>
   </div>
@@ -96,13 +96,13 @@ get_header();
 .c19-result{margin-top:26px;padding:28px 22px;border-radius:16px;text-align:center;border:1px solid;
   animation:c19in .3s ease}
 @keyframes c19in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-.c19-result.ok{border-color:rgba(52,211,153,.4);background:rgba(52,211,153,.08)}
+.c19-result.ok{border-color:rgba(221,171,62,.4);background:rgba(221,171,62,.08)}
 .c19-result.bad{border-color:rgba(248,113,113,.4);background:rgba(248,113,113,.08)}
 .c19-r-icon{width:52px;height:52px;margin:0 auto 14px;border-radius:50%;display:grid;place-items:center;font-size:24px}
-.c19-result.ok .c19-r-icon{background:rgba(52,211,153,.15);color:#34d399}
+.c19-result.ok .c19-r-icon{background:rgba(221,171,62,.15);color:#DDAB3E}
 .c19-result.bad .c19-r-icon{background:rgba(248,113,113,.15);color:#f87171}
 .c19-r-title{font-size:clamp(20px,3vw,26px);margin:0 0 10px}
-.c19-result.ok .c19-r-title{color:#34d399}
+.c19-result.ok .c19-r-title{color:#DDAB3E}
 .c19-result.bad .c19-r-title{color:#f87171}
 .c19-r-formula{font-family:var(--font-body);font-variant-numeric:tabular-nums;font-weight:700;
   font-size:clamp(15px,2.6vw,19px);color:var(--ink);word-break:break-all;margin-bottom:8px}
