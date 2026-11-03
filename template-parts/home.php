@@ -37,10 +37,9 @@
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-quran-downloads.png')) . '" alt="Quran Downloads" loading="lazy">','क़ुरआन डाउनलोड','कंप्यूटर, मोबाइल ऐप और PDF फ़ॉर्मैट में क़ुरआन डाउनलोड करें।','डाउनलोड करें', home_url('/downloads'), ''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-quran-audio.png')) . '" alt="Quran Audio" loading="lazy">','क़ुरआन ऑडियो','अरबी में ख़ूबसूरत तिलावत, अंग्रेज़ी और तमिल तर्जुमे के साथ।','सुनिए', home_url('/audio-quran'), ''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-purchase-quran.png')) . '" alt="Purchase Quran" loading="lazy">','क़ुरआन ख़रीदें','Amazon और Flipkart इंडिया के ज़रिए क़ुरआन की छपी हुई कॉपी मंगवाएं।','अभी ख़रीदें', '#buy', 'buy'),
-        array('<img src="' . esc_url(content_url('uploads/card-icons/icon-book-library.png')) . '" alt="Book Library" loading="lazy">','किताबों की लाइब्रेरी','इताअत (इस्लाम) के बारे में हमारी किताबों का बड़ा ज़ख़ीरा।','देखिए', 'https://godalone.in/library/', ''),
+        array('<img src="' . esc_url(content_url('uploads/card-icons/icon-book-library.png')) . '" alt="Book Library" loading="lazy">','किताबों की लाइब्रेरी','इताअत (इस्लाम) के बारे में हमारी किताबों का बड़ा ज़ख़ीरा।','देखिए', 'https://ekkhuda.org/library/', ''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-submission-videos.png')) . '" alt="Submission Videos" loading="lazy">','इताअत की वीडियो','डॉ. रशाद ख़लीफ़ा के वीडियो और जुमे के ख़ुतबे।','देखिए', home_url('/videos'), ''),
-        array('<img src="' . esc_url(content_url('uploads/card-icons/icon-charity-trust.png')) . '" alt="Charity Trust" loading="lazy">','ख़ैराती ट्रस्ट','नेक कामों और अल्लाह के पैग़ाम को फैलाने में मदद करें।','मदद करें', home_url('/charity'), ''),
-        array('🎨','क़ुरआन कलरिंग बुक','बच्चों के लिए क़ुरआन की कहानियां ऑनलाइन रंगें या छापें।','रंग भरें', 'https://godalone.in/coloring-book/', ''),
+        array('🎨','क़ुरआन कलरिंग बुक','बच्चों के लिए क़ुरआन की कहानियां ऑनलाइन रंगें या छापें।','रंग भरें', 'https://ekkhuda.org/coloring-book/', ''),
       );
       foreach ($cards as $c) {
         list($icon,$title,$desc,$cta,$url,$mode) = $c;
@@ -58,6 +57,41 @@
 </section>
 
 <!-- ══════════ UTILITIES ══════════ -->
+<?php if (function_exists('ek_pm_daily') && ($pm = ek_pm_daily('h'))) : ?>
+<section class="blk newhere">
+<div class="wrap">
+<div class="sec-head">
+<span class="kicker reveal">🌱 नए हैं?</span>
+<h2 class="reveal">यहाँ से शुरू कीजिए</h2>
+<p class="reveal">नए या जिज्ञासु लोगों के लिए छोटे, आसान पेज।</p>
+</div>
+<div class="grid grid-3" style="max-width:1100px;margin:0 auto">
+<a class="card reveal" href="<?php echo esc_url(home_url('/is-this-for-me')); ?>"><span class="ico">🤔</span><h3>क्या यह मेरे लिए है?</h3><p>आप कोई भी हों, आपका स्वागत है। बिना किसी दबाव के एक सीधा जवाब।</p><span class="go">पढ़ें →</span></a>
+<a class="card reveal" href="<?php echo esc_url(home_url('/is-the-quran-enough')); ?>"><span class="ico">📖</span><h3>क्या क़ुरआन काफ़ी है?</h3><p>क़ुरआन अपने बारे में क्या कहता है, इस पर एक शांत नज़र।</p><span class="go">पढ़ें →</span></a>
+<a class="card reveal" href="<?php echo esc_url(home_url('/check-it-yourself')); ?>"><span class="ico">🧮</span><h3>ख़ुद जाँचिए</h3><p>पाँच संख्याएँ, एक कैलकुलेटर और पाँच मिनट। किसी पर भरोसा करने की ज़रूरत नहीं।</p><span class="go">आज़माइए →</span></a>
+</div>
+</div>
+</section>
+
+<section class="blk pm-home">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker reveal">🖼️ आज की तस्वीर</span>
+      <h2 class="reveal">क़ुरआन तस्वीरी पैग़ाम</h2>
+      <p class="reveal">एक आयत, एक तस्वीर। डाउनलोड कीजिए और आज किसी के साथ शेयर कीजिए।</p>
+    </div>
+    <style>.pm-home .pm-hc{max-width:420px;margin:0 auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden}.pm-home .pm-hc img{display:block;width:100%;height:auto}.pm-home .pm-hs{background:linear-gradient(90deg,#9A6A14,#C9922B 28%,#e0b43c 52%,#e8863c 76%,#d4546a);color:#fff;text-align:center;font-weight:700;padding:7px 8px;font-size:.95rem;text-shadow:0 1px 2px rgba(0,0,0,.35)}.pm-home .pm-ha{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;padding:14px}</style>
+    <div class="pm-hc reveal">
+      <a href="<?php echo esc_url(home_url('/picture-messages/#' . $pm)); ?>"><img loading="lazy" alt="" src="<?php echo esc_url(home_url('/picture-messages/img/?f=' . $pm)); ?>"></a>
+      <div class="pm-hs">EkKhuda.org</div>
+      <div class="pm-ha">
+        <a class="btn btn-gold" href="<?php echo esc_url(home_url('/picture-messages/#' . $pm)); ?>">⬇ डाउनलोड / शेयर</a>
+        <a class="btn btn-ghost" href="<?php echo esc_url(home_url('/picture-messages/')); ?>">🖼️ सारी तस्वीरें</a>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 <section class="blk utils">
   <div class="wrap">
     <div class="sec-head">
@@ -68,7 +102,7 @@
     <div class="util-grid">
       <?php
       $utils = array(
-        array('<img src="' . esc_url(content_url('uploads/card-icons/icon-coloring-book.png')) . '" alt="Quran Coloring Book" loading="lazy">','क़ुरआन कलरिंग बुक','बच्चों के लिए क़ुरआन की कहानियां ऑनलाइन रंगें या छापें।','https://godalone.in/coloring-book/','_blank'),
+        array('<img src="' . esc_url(content_url('uploads/card-icons/icon-coloring-book.png')) . '" alt="Quran Coloring Book" loading="lazy">','क़ुरआन कलरिंग बुक','बच्चों के लिए क़ुरआन की कहानियां ऑनलाइन रंगें या छापें।','https://ekkhuda.org/coloring-book/',''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-calculator-19.png')) . '" alt="19 Calculator" loading="lazy">','19 कैलकुलेटर','19 से तक़सीम की जांच करें', home_url('/calculator-19'),''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-salat-ramadan.png')) . '" alt="Salat & Ramadan Timing" loading="lazy">','नमाज़ और रमज़ान का वक़्त','सही नमाज़ टाइमिंग', home_url('/salat-timing'),''),
         array('<img src="' . esc_url(content_url('uploads/card-icons/icon-utility.png')) . '" alt="Utility" loading="lazy">','यूटिलिटी','रोज़े की तारीख़ें और वक़्त', home_url('/ramadan-calculator'),''),
