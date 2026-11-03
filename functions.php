@@ -1,4 +1,12 @@
 <?php
+
+add_action('wp_footer', function () {
+    if (!is_front_page()) { return; }
+    echo <<<'JS'
+<script>(function(){var h=document.querySelector('.hero');if(!h||!('IntersectionObserver' in window))return;new IntersectionObserver(function(e){document.body.classList.toggle('hero-in',e[0].isIntersecting);}).observe(h);})();</script>
+JS;
+}, 99);
+
 /**
  * EkKhuda Premium — theme functions
  *
@@ -10,7 +18,43 @@
 
 if (!defined('ABSPATH')) exit;
 
-if (!defined('EK_VER')) define('EK_VER', '1.1.2');
+/**
+ * Theme asset version = newest modification time of the theme's own files.
+ * Editing style.css / header.php / footer.php / functions.php changes this
+ * automatically, so browsers fetch the new file with no manual version bump.
+ * Falls back to the fixed string below if the files cannot be read.
+ */
+if (!function_exists('ek_auto_ver')) {
+	function ek_auto_ver() {
+		static $v = null;
+		if ($v !== null) { return $v; }
+		$dir   = get_stylesheet_directory();
+		$stamp = 0;
+		foreach (array('style.css', 'header.php', 'footer.php', 'functions.php') as $f) {
+			$p = $dir . '/' . $f;
+			if (file_exists($p)) {
+				$t = @filemtime($p);
+				if ($t && $t > $stamp) { $stamp = $t; }
+			}
+		}
+		$v = $stamp ? ('1.1.3.' . $stamp) : '1.1.3';
+		return $v;
+	}
+}
+if (!defined('EK_VER')) define('EK_VER', ek_auto_ver());
+
+/**
+ * Auto-purge the LiteSpeed page cache when any theme file changes, so edits
+ * show up without clearing the cache by hand. Runs at most once per change.
+ */
+add_action('init', function () {
+	if (!function_exists('get_option')) { return; }
+	$sig = ek_auto_ver();
+	if (get_option('ek_theme_sig') !== $sig) {
+		update_option('ek_theme_sig', $sig, false);
+		do_action('litespeed_purge_all');
+	}
+}, 99);
 
 /* ---- Calculator-19 page routing (no wp-admin page exists for this slug) ---- */
 add_action('init', function () {
@@ -80,6 +124,97 @@ if (get_query_var('ek_videos_page')) {
     return $template;
     });
     
+/* ---- Introduction page routing (Hindi; no wp-admin page exists for this slug) ---- */
+add_action('init', function () {
+    add_rewrite_rule('^introduction/?$', 'index.php?ek_intro_page=1', 'top');
+    if (get_option('ek_intro_rewrite_flushed') !== EK_VER) {
+        flush_rewrite_rules(false);
+        update_option('ek_intro_rewrite_flushed', EK_VER);
+    }
+}, 20);
+add_filter('query_vars', function ($vars) { $vars[] = 'ek_intro_page'; return $vars; });
+add_filter('template_include', function ($template) {
+    if (get_query_var('ek_intro_page')) {
+        $t = get_stylesheet_directory() . '/page-introduction.php';
+        if (file_exists($t)) return $t;
+    }
+    return $template;
+});
+
+/* ---- About / Privacy / Copyright routing (no wp-admin page) ---- */
+add_action('init', function () {
+    add_rewrite_rule('^(about|privacy-policy|copyright)/?$', 'index.php?ek_legal=$matches[1]', 'top');
+    if (get_option('ek_legal_rewrite_flushed') !== EK_VER) {
+        flush_rewrite_rules(false);
+        update_option('ek_legal_rewrite_flushed', EK_VER);
+    }
+}, 20);
+add_filter('query_vars', function ($vars) { $vars[] = 'ek_legal'; return $vars; });
+add_filter('template_include', function ($template) {
+    if (get_query_var('ek_legal')) {
+        $t = get_stylesheet_directory() . '/page-legal.php';
+        if (file_exists($t)) return $t;
+    }
+    return $template;
+});
+
+/* ---- Picture Messages (/picture-messages) ---- */
+if (file_exists(get_stylesheet_directory() . '/inc-picture-messages.php')) { try { require_once get_stylesheet_directory() . '/inc-picture-messages.php'; } catch (\Throwable $e) { } }
+
+/* ---- New-here pages routing (/is-this-for-me, /is-the-quran-enough, /check-it-yourself; no wp-admin pages) ---- */
+add_action('init', function () {
+    add_rewrite_rule('^is-this-for-me/?$', 'index.php?ek_forme_page=1', 'top');
+    add_rewrite_rule('^is-the-quran-enough/?$', 'index.php?ek_qenough_page=1', 'top');
+    add_rewrite_rule('^check-it-yourself/?$', 'index.php?ek_check_page=1', 'top');
+    if (get_option('ek_newhere_rewrite_flushed') !== EK_VER) {
+        flush_rewrite_rules(false);
+        update_option('ek_newhere_rewrite_flushed', EK_VER);
+    }
+}, 20);
+add_filter('query_vars', function ($vars) { $vars[] = 'ek_forme_page'; $vars[] = 'ek_qenough_page'; $vars[] = 'ek_check_page'; return $vars; });
+add_filter('template_include', function ($template) {
+    $map = array('ek_forme_page' => 'page-is-this-for-me.php', 'ek_qenough_page' => 'page-is-the-quran-enough.php', 'ek_check_page' => 'page-check-it-yourself.php');
+    foreach ($map as $qv => $file) {
+        if (get_query_var($qv)) {
+            $t = get_stylesheet_directory() . '/' . $file;
+            if (file_exists($t)) return $t;
+        }
+    }
+    return $template;
+});
+
+/* ---- Homepage SEO: Hindi description, html lang (ek_home_seo_desc) ---- */
+function ek_home_seo_desc() { return 'एक ख़ुदा – सिर्फ़ अल्लाह की इताअत में ख़ुशी। क़ुरआन का हिंदी अनुवाद, ऑडियो, वीडियो, किताबें और 19 कैलकुलेटर।'; }
+foreach (array('aioseo_description', 'aioseo_og_description', 'aioseo_twitter_description') as $ek_a) {
+    add_filter($ek_a, function ($d) { return is_front_page() ? ek_home_seo_desc() : $d; });
+}
+foreach (array('wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description') as $ek_h) {
+    add_filter($ek_h, function ($d) { return is_front_page() ? ek_home_seo_desc() : $d; });
+}
+add_action('wp_head', function () {
+    if (is_front_page() && !defined('WPSEO_VERSION') && !function_exists('aioseo')) {
+        echo '<meta name="description" content="' . esc_attr(ek_home_seo_desc()) . '">' . "\n";
+    }
+}, 1);
+add_filter('language_attributes', function ($o) { return preg_replace('/lang="[^"]*"/', 'lang="hi"', $o); });
+
+/* ---- Contact page routing (/contact, no wp-admin page) ---- */
+add_action('init', function () {
+    add_rewrite_rule('^contact/?$', 'index.php?ek_contact_page=1', 'top');
+    if (get_option('ek_contact_rewrite_flushed') !== EK_VER) {
+        flush_rewrite_rules(false);
+        update_option('ek_contact_rewrite_flushed', EK_VER);
+    }
+}, 20);
+add_filter('query_vars', function ($vars) { $vars[] = 'ek_contact_page'; return $vars; });
+add_filter('template_include', function ($template) {
+    if (get_query_var('ek_contact_page')) {
+        $t = get_stylesheet_directory() . '/page-contact.php';
+        if (file_exists($t)) return $t;
+    }
+    return $template;
+});
+
 /* ---- Firebase config (Google sign-in) — same project as godalone.in ---- */
 function ek_firebase_config() {
 	return array(
@@ -159,22 +294,24 @@ add_action('wp_ajax_nopriv_newsletter_subscribe', 'ek_newsletter_subscribe');
 
 /* ---- Contact form submission (AJAX). Used by the Contact page's message form. ---- */
 function ek_submit_contact_form() {
-	$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
-	if (!wp_verify_nonce($nonce, 'contact_form_nonce')) {
-		wp_send_json(array('success'=>false,'data'=>'Security check fail ho gaya. Meherbani karke page refresh karke dobara koshish karein.'));
-	}
-	$name = isset($_POST['contact_name']) ? sanitize_text_field(wp_unslash($_POST['contact_name'])) : '';
-	$email = isset($_POST['contact_email']) ? sanitize_email(wp_unslash($_POST['contact_email'])) : '';
-	$message = isset($_POST['contact_message']) ? sanitize_textarea_field(wp_unslash($_POST['contact_message'])) : '';
-	if (!$name || !$email || !is_email($email) || !$message) {
-		wp_send_json(array('success'=>false,'data'=>'Meherbani karke saare khaane bharein.'));
-	}
-	@wp_mail(
-		get_option('admin_email'),
-		'New contact message — EkKhuda.org',
-		"Naam: {$name}\nEmail: {$email}\n\n{$message}"
-	);
-	wp_send_json(array('success'=>true,'data'=>'Aapka paighaam mil gaya. Jazak Allah khair!'));
+    $nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+    if (!wp_verify_nonce($nonce, 'contact_form_nonce')) {
+        wp_send_json(array('success' => false, 'data' => 'सुरक्षा जाँच विफल रही। कृपया पेज रीफ़्रेश करके दोबारा कोशिश कीजिए।'));
+    }
+    if (!empty($_POST['website'])) {
+        wp_send_json(array('success' => true, 'data' => 'आपका संदेश मिल गया। जज़ाकल्लाह ख़ैर!'));
+    }
+    $name    = isset($_POST['contact_name']) ? sanitize_text_field(wp_unslash($_POST['contact_name'])) : '';
+    $email   = isset($_POST['contact_email']) ? sanitize_email(wp_unslash($_POST['contact_email'])) : '';
+    $phone   = isset($_POST['contact_phone']) ? sanitize_text_field(wp_unslash($_POST['contact_phone'])) : '';
+    $message = isset($_POST['contact_message']) ? sanitize_textarea_field(wp_unslash($_POST['contact_message'])) : '';
+    if (!$name || !$email || !is_email($email) || !$message) {
+        wp_send_json(array('success' => false, 'data' => 'कृपया सभी ज़रूरी खाने भरिए।'));
+    }
+    $headers = array('Reply-To: ' . $name . ' <' . $email . '>');
+    $body = "Naam: {$name}\nEmail: {$email}\nPhone: {$phone}\n\n{$message}";
+    @wp_mail('info@godalone.in', 'New contact message - EkKhuda.org', $body, $headers);
+    wp_send_json(array('success' => true, 'data' => 'आपका संदेश मिल गया। जज़ाकल्लाह ख़ैर!'));
 }
 add_action('wp_ajax_submit_contact_form', 'ek_submit_contact_form');
 add_action('wp_ajax_nopriv_submit_contact_form', 'ek_submit_contact_form');
@@ -206,15 +343,25 @@ function ek_default_menu() {
 	$items = array(
 		array('🏠', 'होम', home_url('/'), ''),
 		array('📖', 'तआरुफ़', home_url('/introduction'), ''),
+        array('🤔', 'क्या यह मेरे लिए है?', home_url('/is-this-for-me'), ''),
+        array('📖', 'क्या क़ुरआन काफ़ी है?', home_url('/is-the-quran-enough'), ''),
+        array('🧮', 'ख़ुद जाँचिए', home_url('/check-it-yourself'), ''),
 		array('🔢', 'गणित का करिश्मा', home_url('/mathematical-miracle'), ''),
 		array('💻', 'ऑनलाइन क़ुरआन', 'https://godalone.in/quran/', '_blank'),
 		array('📱', 'क़ुरआन डाउनलोड', home_url('/downloads'), ''),
 		array('🎧', 'क़ुरआन ऑडियो', home_url('/audio-quran'), ''),
+		array('🖼️', 'तस्वीरी पैग़ाम', home_url('/picture-messages'), ''),
 		array('🛒', 'क़ुरआन ख़रीदें', '#buy', 'buy'),
 		array('📚', 'लाइब्रेरी', 'https://ekkhuda.org/library/', ''),
 		array('🎥', 'वीडियो', home_url('/videos'), ''),
 		array('🤖', 'Telegram बॉट', 'https://t.me/quranalonebot', '_blank'),
-		array('❤️', 'ख़ैराती ट्रस्ट', home_url('/charity'), ''),
+		array('🕌', 'नमाज़ और रमज़ान का समय', home_url('/salat-timing'), ''),
+		array('🌙', 'रमज़ान कैलकुलेटर', home_url('/ramadan-calculator'), ''),
+		array('💰', 'ज़रूरी दान (ज़कात)', home_url('/zakat-calculator'), ''),
+		array('🧰', 'सभी साधन', home_url('/utilities'), ''),
+		array('❓', 'क़ुरआन के सवाल-जवाब', home_url('/quran-qa'), ''),
+		array('💬', 'अक्सर पूछे जाने वाले सवाल', home_url('/faq'), ''),
+		array('❤️', 'चैरिटी ट्रस्ट', home_url('/charity'), ''),
 		array('📞', 'राब्ता', home_url('/contact'), ''),
 	);
 	foreach ($items as $it) {
@@ -306,6 +453,14 @@ function kh_seed_index_items() {
     return array(
         array('title' => 'ज़रूरी दान (ज़कात)', 'url' => home_url('/zakat-calculator/'), 'excerpt' => 'अपनी शुद्ध आमदनी का 2.5% ज़कात रक़म फ़ौरन हिसाब लगाएं।'),
         array('title' => '19 कैलकुलेटर', 'url' => home_url('/calculator-19/'), 'excerpt' => 'कोई भी संख्या 19 से तक़सीम होती है या नहीं, फ़ौरन जांचें।'),
+        array('title' => 'नमाज़ और रमज़ान का समय', 'url' => home_url('/salat-timing/'), 'excerpt' => 'अपने शहर के नमाज़ और रमज़ान के औक़ात देखें।'),
+        array('title' => 'रमज़ान कैलकुलेटर', 'url' => home_url('/ramadan-calculator/'), 'excerpt' => 'रमज़ान के दिन और औक़ात का हिसाब।'),
+        array('title' => 'सभी साधन', 'url' => home_url('/utilities/'), 'excerpt' => 'नमाज़, रमज़ान, ज़कात और 19 कैलकुलेटर एक जगह।'),
+        array('title' => 'क़ुरआन के सवाल-जवाब', 'url' => home_url('/quran-qa/'), 'excerpt' => 'क़ुरआन से जुड़े सवाल और जवाब।'),
+        array('title' => 'अक्सर पूछे जाने वाले सवाल', 'url' => home_url('/faq/'), 'excerpt' => 'आम सवालों के जवाब क़ुरआन की आयतों के साथ।'),
+        array('title' => 'चैरिटी ट्रस्ट', 'url' => home_url('/charity/'), 'excerpt' => 'हमारा चैरिटी ट्रस्ट।'),
+        array('title' => 'क़ुरआन ऑडियो', 'url' => home_url('/audio-quran/'), 'excerpt' => 'अरबी तिलावत और हिन्दी अनुवाद सुनें।'),
+        array('title' => 'गणित का करिश्मा', 'url' => home_url('/mathematical-miracle/'), 'excerpt' => 'क़ुरआन में 19 का गणितीय चमत्कार।'),
     );
 }
 
@@ -335,9 +490,75 @@ function kh_seed_index() {
 }
 
 add_action('init', function () {
-    $ver = 'kh1.0.0';
+    $ver = 'kh1.1.0';
     if (get_option('kh_index_seeded_ver') !== $ver) {
         kh_seed_index();
         update_option('kh_index_seeded_ver', $ver);
     }
 }, 20);
+
+
+// Sharing picture + preview text (Open Graph / Twitter) - no SEO plugin on this site
+add_action('wp_head', function(){
+	$img  = home_url('/wp-content/uploads/2026/10/share-hi.png?v=nl3');
+	$desc = get_bloginfo('description');
+	$url  = is_front_page() ? home_url('/') : get_permalink();
+	echo "\n<meta property=\"og:type\" content=\"website\" />\n";
+	echo '<meta property="og:site_name" content="' . esc_attr(get_bloginfo('name')) . '" />' . "\n";
+	echo '<meta property="og:title" content="' . esc_attr(wp_get_document_title()) . '" />' . "\n";
+	if ($desc) { echo '<meta property="og:description" content="' . esc_attr($desc) . '" />' . "\n"; }
+	if ($url) { echo '<meta property="og:url" content="' . esc_url($url) . '" />' . "\n"; }
+	echo '<meta property="og:image" content="' . esc_url($img) . '" />' . "\n";
+	echo '<meta property="og:image:width" content="1200" />' . "\n";
+	echo '<meta property="og:image:height" content="630" />' . "\n";
+	echo '<meta name="twitter:card" content="summary_large_image" />' . "\n";
+	echo '<meta name="twitter:image" content="' . esc_url($img) . '" />' . "\n";
+}, 5);
+
+require_once get_template_directory() . '/inc-bottombar.php';
+
+/* ---- Hindi pages ported from godalone.in (no wp-admin page exists for these slugs) 15-10-2026 ---- */
+if (!function_exists('ek_hindi_pages_map')) {
+	function ek_hindi_pages_map() {
+		return array(
+			'salat-timing'         => 'page-salat-timing.php',
+			'ramadan-calculator'   => 'page-ramadan-calculator.php',
+			'faq'                  => 'page-faq.php',
+			'charity'              => 'page-charity.php',
+			'utilities'            => 'page-utilities.php',
+			'mathematical-miracle' => 'page-mathematical-miracle.php',
+			'audio-quran'          => 'page-audio-quran.php',
+			'quran-qa'             => 'page-quran-qa.php',
+		);
+	}
+}
+add_action('init', function () {
+	foreach (array_keys(ek_hindi_pages_map()) as $slug) {
+		add_rewrite_rule('^' . $slug . '/?$', 'index.php?ek_hpage=' . $slug, 'top');
+	}
+	if (get_option('ek_hpages_rewrite_flushed') !== EK_VER) {
+		flush_rewrite_rules(false);
+		update_option('ek_hpages_rewrite_flushed', EK_VER);
+	}
+}, 21);
+add_filter('query_vars', function ($vars) { $vars[] = 'ek_hpage'; return $vars; });
+add_filter('template_include', function ($template) {
+	$s = get_query_var('ek_hpage');
+	$m = ek_hindi_pages_map();
+	if ($s && isset($m[$s])) {
+		$t = get_stylesheet_directory() . '/' . $m[$s];
+		if (file_exists($t)) {
+			status_header(200);
+			return $t;
+		}
+	}
+	return $template;
+});
+
+add_action('template_redirect', function(){ $u = isset($_SERVER['REQUEST_URI']) ? strtok($_SERVER['REQUEST_URI'],'?') : ''; if (rtrim($u,'/') === '/mathematical-miracle' && !file_exists(get_stylesheet_directory().'/page-mathematical-miracle.php')) { wp_safe_redirect(home_url('/check-it-yourself/'), 302); exit; } }, 1);
+
+/* new logo 15-10-2026: cache-bust site icons (tab, apple-touch, tile) */
+add_filter('get_site_icon_url', function($url){ return $url ? add_query_arg('v','nl3',$url) : $url; });
+
+/* 15-10-2026: browsers were keeping page HTML for 7 days (max-age=604800) so visitors missed updates; keep HTML fresh for 10 min, assets keep their own long caching */
+add_action('send_headers', function(){ if (is_admin() || is_user_logged_in() || (defined('DOING_AJAX') && DOING_AJAX) || (defined('REST_REQUEST') && REST_REQUEST)) return; header('Cache-Control: public, max-age=600, must-revalidate', true); }, 99);
