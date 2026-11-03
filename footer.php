@@ -5,8 +5,8 @@
   <div class="wrap gf-top">
     <div class="gf-brand">
       <a href="<?php echo esc_url(home_url('/')); ?>" class="brand brand-logo gf-logo">
-   <img class="logo-dark" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-dark.png" alt="EkKhuda.org">
-   <img class="logo-light" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-light.png" alt="EkKhuda.org">
+   <img class="logo-dark" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-dark.png?v=nl3" alt="EkKhuda.org">
+   <img class="logo-light" src="<?php echo esc_url(get_template_directory_uri()); ?>/images/logo-light.png?v=nl3" alt="EkKhuda.org">
   </a>
   <div class="brand-text">
    <span class="bn" style="font-size:24px">एक ख़ुदा</span>
@@ -32,6 +32,8 @@
         <li><a href="https://ekkhuda.org/library/">📚 लाइब्रेरी</a></li>
         <li><a href="<?php echo esc_url(home_url('/videos')); ?>">🎥 वीडियो</a></li>
         <li><a href="<?php echo esc_url(home_url('/calculator-19')); ?>">🔢 19 कैलकुलेटर</a></li>
+        <li><a href="<?php echo esc_url(home_url('/salat-timing')); ?>">🕌 नमाज़ और रमज़ान का समय</a></li>
+        <li><a href="<?php echo esc_url(home_url('/faq')); ?>">❓ अक्सर पूछे जाने वाले सवाल</a></li>
         <li><a href="https://19code.org/en/" target="_blank" rel="noopener">🔬 19code.org</a></li>
       </ul>
     </div>
@@ -39,18 +41,18 @@
     <div>
       <h4>जुड़ें</h4>
       <ul>
+        <li><a href="<?php echo esc_url(home_url('/charity')); ?>">❤️ चैरिटी ट्रस्ट</a></li>
         <li><a href="<?php echo esc_url(home_url('/contact')); ?>">📞 राब्ता करें</a></li>
-        <li><a href="<?php echo esc_url(home_url('/charity')); ?>">❤️ ख़ैराती ट्रस्ट</a></li>
         <li><a href="https://whatsapp.com/channel/0029Vb9FuAc8vd1OfOn8x71o" target="_blank" rel="noopener">📢 WhatsApp चैनल</a></li>
         <li><a href="https://t.me/kadavulmattum_org" target="_blank" rel="noopener">📢 Telegram चैनल</a></li>
         <li><a href="https://www.youtube.com/hiddensecret741" target="_blank" rel="noopener">📺 YouTube चैनल</a></li>
       </ul>
       <div class="gf-social">
-        <a href="https://whatsapp.com/channel/0029Vb9FuAc8vd1OfOn8x71o" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/whatsapp.png')" aria-hidden="true"></span></a>
-        <a href="https://t.me/kadavulmattum_org" target="_blank" rel="noopener" aria-label="Telegram"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/telegram.png')" aria-hidden="true"></span></a>
-        <a href="https://www.youtube.com/hiddensecret741" target="_blank" rel="noopener" aria-label="YouTube"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/youtube.png')" aria-hidden="true"></span></a>
-        <a href="https://www.facebook.com/thameemnf" target="_blank" rel="noopener" aria-label="Facebook"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/facebook.png')" aria-hidden="true"></span></a>
-        <a href="https://x.com/thameemnf" target="_blank" rel="noopener" aria-label="X"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/x.png')" aria-hidden="true"></span></a>
+        <a href="https://whatsapp.com/channel/0029Vb9FuAc8vd1OfOn8x71o" target="_blank" rel="noopener" aria-label="WhatsApp"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/whatsapp-v2.svg')" aria-hidden="true"></span></a>
+        <a href="https://t.me/kadavulmattum_org" target="_blank" rel="noopener" aria-label="Telegram"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/telegram-v2.svg')" aria-hidden="true"></span></a>
+        <a href="https://www.youtube.com/hiddensecret741" target="_blank" rel="noopener" aria-label="YouTube"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/youtube-v2.svg')" aria-hidden="true"></span></a>
+        <a href="https://www.facebook.com/thameemnf" target="_blank" rel="noopener" aria-label="Facebook"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/facebook-v2.svg')" aria-hidden="true"></span></a>
+        <a href="https://x.com/thameemnf" target="_blank" rel="noopener" aria-label="X"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/x-v2.svg')" aria-hidden="true"></span></a>
         <a href="https://github.com/kadavulmattum" target="_blank" rel="noopener" aria-label="GitHub"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/github.svg')" aria-hidden="true"></span></a>
       <a href="https://www.pinterest.com/kadavulmattum" target="_blank" rel="noopener" aria-label="Quran Picture Message"><span class="gf-icon" style="--gf-icon-src:url('<?php echo esc_url(get_template_directory_uri()); ?>/images/social/pinterest.svg')" aria-hidden="true"></span></a>
       </div>
@@ -58,7 +60,8 @@
   </div>
 
   <div class="wrap gf-bottom">
-    <div class="cc">© <?php echo esc_html(date('Y')); ?> Ekkhuda.org · <span class="gf-oss"><a href="https://github.com/kadavulmattum" target="_blank" rel="noopener">Open Source</a> <span class="gf-heart">❤️</span></span></div>
+    <div class="cc">© <?php echo esc_html(date('Y')); ?> EkKhuda.org · <span class="gf-oss"><a href="https://github.com/kadavulmattum" target="_blank" rel="noopener">Open Source</a> <span class="gf-heart">❤️</span></span></div>
+    <div class="gf-legal" style="margin:6px 0;font-size:.9rem"><a href="<?php echo esc_url(home_url('/about')); ?>">हमारे बारे में</a> &nbsp;·&nbsp; <a href="<?php echo esc_url(home_url('/privacy-policy')); ?>">गोपनीयता नीति</a> &nbsp;·&nbsp; <a href="<?php echo esc_url(home_url('/copyright')); ?>">कॉपीराइट</a></div>
     <div class="duaa">"अल्लाह ही सबसे बेहतर रिज़्क़ देने वाला है और अल्लाह ही सबसे बेहतरीन तख़लीक़ करने वाला है"</div>
     <div class="praise">Ma Sha Allah · La Quwwata Ella Bellah · तमाम तारीफ़ अल्लाह के लिए है, जो सारे जहान का रब है।</div>
   </div>
