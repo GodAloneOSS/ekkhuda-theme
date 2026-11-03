@@ -17,7 +17,7 @@ color:var(--gold-bright);text-align:center;margin:0 0 .7em}
 
 <div class="page-hero">
 <div class="wrap">
-<div class="crumb">Ekkhuda.org</div>
+<div class="crumb">EkKhuda.org</div>
 <h1 class="reveal">🎬 वीडियो और प्लेलिस्ट</h1>
 <p class="hero-sub">यूट्यूब प्लेलिस्ट का मजमूआ — क़ुरआन तिलावत, डॉ. रशाद ख़लीफ़ा का भाषण, जुमा के ख़ुत्बे और भी बहुत कुछ — अंग्रेज़ी, तमिल और हिंदी में, इंशा'अल्लाह।</p>
 </div>
