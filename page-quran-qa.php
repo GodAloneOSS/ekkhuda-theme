@@ -1,12 +1,24 @@
-<?php if (!defined('ABSPATH')) exit; get_header(); ?>
+<?php
+/**
+ * Template: Quran Q&A (Hindi)
+ *
+ * Routed for the /quran-qa/ slug by ek_hindi_pages_map() in functions.php.
+ * Renders the Quranic Quiz (Hindi) plugin, seeded with 471 Hindi questions.
+ *
+ * 16-10-2026: replaced the "coming soon" stub with the live quiz.
+ * Stub kept at page-quran-qa.php.bak-before-quiz-16-10-2026
+ */
+if (!defined('ABSPATH')) exit;
+get_header();
+?>
 <div class="page-hero">
   <div class="flourish reveal" style="margin-bottom:18px"><i></i></div>
   <h1>❓ क़ुरआन के सवाल-जवाब</h1>
+  <p>क़ुरआन के बारे में अपनी समझ परखें और बढ़ाएँ — इन्शा अल्लाह।</p>
 </div>
-<div class="article" style="text-align:center">
-  <p style="font-size:60px;line-height:1;margin-bottom:10px">📖❓</p>
-  <p>इंशा'अल्लाह, यह सफ़ा (page) जल्द तैयार हो रहा है — क़ुरआन के आसान सवालों के ज़रिए अपनी समझ परखने और बढ़ाने के लिए।</p>
-  <p><a class="btn btn-gold" href="<?php echo esc_url(home_url('/')); ?>">← होम पर वापस जाएं</a></p>
-  <blockquote>"अल्लाह के नज़दीक सिर्फ़ इस्लाम (इताअत) ही सच्चा दीन है।" — क़ुरआन 3:19</blockquote>
+
+<div class="article">
+  <?php echo do_shortcode('[quranic_quiz]'); ?>
 </div>
+
 <?php get_footer(); ?>
