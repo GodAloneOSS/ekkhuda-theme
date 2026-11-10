@@ -87,6 +87,7 @@
 </a>
 <button class="totop" id="ghTop" aria-label="ऊपर जाएं" type="button">↑</button>
 
+<script src="<?php echo esc_url(get_template_directory_uri()); ?>/assets/js/ga-account.js?v=8" defer></script>
 <?php wp_footer(); ?>
 </body>
 </html>
