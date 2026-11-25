@@ -329,8 +329,10 @@ function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localSt
 function setStatus(t){$("gaq-status").textContent=t||""}
 
 /* ---------- data ---------- */
+/* sura names from our own data (no outside service needed) */
+var GAQ_META=[["الفاتحة","Meccan"],["البقرة","Medinan"],["آل عمران","Medinan"],["النساء","Medinan"],["المائدة","Medinan"],["الأنعام","Meccan"],["الأعراف","Meccan"],["الأنفال","Medinan"],["براءة","Medinan"],["يونس","Meccan"],["هود","Meccan"],["يوسف","Meccan"],["الرعد","Medinan"],["ابراهيم","Meccan"],["الحجر","Meccan"],["النحل","Meccan"],["الإسراء","Meccan"],["الكهف","Meccan"],["مريم","Meccan"],["طه","Meccan"],["الأنبياء","Meccan"],["الحج","Medinan"],["المؤمنون","Meccan"],["النور","Medinan"],["الفرقان","Meccan"],["الشعراء","Meccan"],["النمل","Meccan"],["القصص","Meccan"],["العنكبوت","Meccan"],["الروم","Meccan"],["لقمان","Meccan"],["السجدة","Meccan"],["الأحزاب","Medinan"],["سبإ","Meccan"],["فاطر","Meccan"],["يس","Meccan"],["الصافات","Meccan"],["ص","Meccan"],["الزمر","Meccan"],["غافر","Meccan"],["فصلت","Meccan"],["الشورى","Meccan"],["الزخرف","Meccan"],["الدخان","Meccan"],["الجاثية","Meccan"],["الأحقاف","Meccan"],["محمد","Medinan"],["الفتح","Medinan"],["الحجرات","Medinan"],["ق","Meccan"],["الذاريات","Meccan"],["الطور","Meccan"],["النجم","Meccan"],["القمر","Meccan"],["الرحمن","Medinan"],["الواقعة","Meccan"],["الحديد","Medinan"],["المجادلة","Medinan"],["الحشر","Medinan"],["الممتحنة","Medinan"],["الصف","Medinan"],["الجمعة","Medinan"],["المنافقون","Medinan"],["التغابن","Medinan"],["الطلاق","Medinan"],["التحريم","Medinan"],["الملك","Meccan"],["القلم","Meccan"],["الحاقة","Meccan"],["المعارج","Meccan"],["نوح","Meccan"],["الجن","Meccan"],["المزمل","Meccan"],["المدثر","Meccan"],["القيامة","Meccan"],["الانسان","Medinan"],["المرسلات","Meccan"],["النبإ","Meccan"],["النازعات","Meccan"],["عبس","Meccan"],["التكوير","Meccan"],["الإنفطار","Meccan"],["المطففين","Meccan"],["الإنشقاق","Meccan"],["البروج","Meccan"],["الطارق","Meccan"],["الأعلى","Meccan"],["الغاشية","Meccan"],["الفجر","Meccan"],["البلد","Meccan"],["الشمس","Meccan"],["الليل","Meccan"],["الضحى","Meccan"],["الشرح","Meccan"],["التين","Meccan"],["العلق","Meccan"],["القدر","Meccan"],["البينة","Medinan"],["الزلزلة","Medinan"],["العاديات","Meccan"],["القارعة","Meccan"],["التكاثر","Meccan"],["العصر","Meccan"],["الهمزة","Meccan"],["الفيل","Meccan"],["قريش","Meccan"],["الماعون","Meccan"],["الكوثر","Meccan"],["الكافرون","Meccan"],["النصر","Medinan"],["المسد","Meccan"],["الإخلاص","Meccan"],["الفلق","Meccan"],["الناس","Meccan"]];
 function loadSuras(){
-  return fetch("https://api.alquran.cloud/v1/surah").then(function(r){return r.json()}).then(function(j){
+  return Promise.resolve({data:GAQ_META.map(function(m,i){return {number:i+1,name:m[0],englishName:"",revelationType:m[1],numberOfAyahs:0}})}).then(function(j){
     var SUB=[["The Key (Al-Fatehah)",7],["The Heifer (Al-Baqarah)",286],["The Amramites (Ali-'Imran)",200],["Women (Al-Nesa')",176],["The Feast (Al-Ma'edah)",120],["Livestock (Al-An'am)",165],["The Purgatory (Al-A'araf)",206],["The Spoils of War (Al-Anfal)",75],["Ultimatum (Bara'ah)",127],["Jonah (Younus)",109],["Hood (Hud)",123],["Joseph (Yousuf)",111],["Thunder (Al-Ra`ad)",43],["Abraham (Ibrahim)",52],["Al-Hijr Valley (Al-Hijr)",99],["The Bee (Al-Nahl)",128],["The Children of Israel (Bani Israel)",111],["The Cave (Al-Kahf)",110],["Mary (Maryam)",98],["T.H. (Ta Ha)",135],["The Prophets (Al-Anbya')",112],["Pilgrimage (Al-Hajj)",78],["The Believers (Al-Mu'minun)",118],["Light (Al-Noor)",64],["The Statute Book (Al-Furqan)",77],["The Poets (Al-Shu`ara')",227],["The Ant (Al-Naml)",93],["History (Al-Qasas)",88],["The Spider (Al-'Ankaboot)",69],["The Romans (Al-Room)",60],["Luqmaan (Luqman)",34],["Prostration (Al-Sajdah)",30],["The Parties (Al-Ahzab)",73],["Sheba (Saba')",54],["Initiator (Faater)",45],["Y.S. (Ya Sin)",83],["The Arrangers (Al-Saffat)",182],["S. (Saad)",88],["The Throngs (Al-Zumar)",75],["Forgiver (Ghafer)",85],["Detailed (Fussilat)",54],["Consultation (Al-Shoora)",53],["Ornaments (Al-Zukhruf)",89],["Smoke (Al-Dukhan)",59],["Kneeling (Al-Jatheyah)",37],["The Dunes (Al-Ahqaf)",35],["Muhammad (Muhammad)",38],["Victory (Al-Fatt-h)",29],["The Walls (Al-Hujurat)",18],["Q. (Qaf)",45],["Drivers of the Winds (Al-Dhareyat)",60],["Mount Sinai (Al-Toor)",49],["The Stars (Al-Najm)",62],["The Moon (Al-Qamar)",55],["Most Gracious (Al-Rahmaan)",78],["The Inevitable (Al-Waaqe'ah)",96],["Iron (Al-Hadeed)",29],["The Debate (Al-Mujaadalah)",22],["Exodus (Al-Hashr)",24],["The Test (Al-Mumtahanah)",13],["The Column (Al-Suff)",14],["Friday (Al-Jumu`ah)",11],["The Hypocrites (Al-Munaafeqoon)",11],["Mutual Blaming (Al-Taghaabun)",18],["Divorce (Al-Talaaq)",12],["Prohibition (Al-Tahreem)",12],["Kingship (Al-Mulk)",30],["The Pen (Al-Qalam)",52],["Incontestable (Al-Haaqqah)",52],["The Heights (Al-Ma'aarej)",44],["Noah (Noah)",28],["Jinns (Al-Jinn)",28],["Cloaked (Al-Muzzammil)",20],["The Hidden Secret (Al-Muddath-thir)",56],["Resurrection (Al-Qeyaamah)",40],["The Human (Al-Insaan)",31],["Dispatched (Al-Mursalaat)",50],["The Event (Al-Naba')",40],["The Snatchers (Al-Naaze`aat)",46],["He Frowned (`Abasa)",42],["The Rolling (Al-Takweer)",29],["The Shattering (Al-Infitaar)",19],["The Cheaters (Al-Mutaffifeen)",36],["The Rupture (Al-Inshiqaaq)",25],["The Galaxies (Al-Burooj)",22],["The Bright Star (Al-Taareq)",17],["The Most High (Al-A`alaa)",19],["Overwhelming (Al-Ghaasheyah)",26],["Dawn (Al-Fajr)",30],["The Town (Al-Balad)",20],["The Sun (Al-Shams)",15],["The Night (Al-Layl)",21],["The Forenoon (Al-Duhaa)",11],["Cooling the Temper (Al-Sharrhh)",8],["The Fig (Al-Teen)",8],["The Embryo (Al-`Alaq)",19],["Destiny (Al-Qadr)",5],["Proof (Al-Bayyinah)",8],["The Quake (Al-Zalzalah)",8],["The Gallopers (Al-`Aadeyaat)",11],["The Shocker (Al-Qaare`ah)",11],["Hoarding (Al-Takaathur)",8],["The Afternoon (Al-`Asr)",3],["The Backbiter (Al-Humazah)",9],["The Elephant (Al-Feel)",5],["Quraish Tribe (Quraish)",4],["Charity (Al-Maa`oon)",7],["Bounty (Al-Kawthar)",3],["The Disbelievers (Al-Kaaferoon)",6],["Triumph (Al-Naasr)",3],["Thorns (Al-Masad)",5],["Absoluteness (Al-Ikhlaas)",4],["Daybreak (Al-Falaq)",5],["People (Al-Naas)",6]];
     suras=j.data; suras.forEach(function(s,i){ var t=SUB[i]; if(t){ s.englishName=t[0]; s.englishNameTranslation=""; s.numberOfAyahs=t[1]; } }); var sel=$("gaq-sura");
     sel.innerHTML=suras.map(function(s){return '<option value="'+s.number+'">'+s.number+'.  '+s.englishName+' — '+s.numberOfAyahs+' आयतें</option>'}).join("");
@@ -809,13 +811,13 @@ function renderBm(){ if(!bmO||!bmO.classList.contains("on")) return; var C=bmO.q
  C.appendChild(au);
  var A=bmA.map(function(k){return{k:k,t:"a"}}), R=allR().map(function(k){return{k:k,t:"r"}}), all=A.concat(R);
  var tabs=document.createElement("div"); tabs.className="bmtabs";
- [["all","All",all.length,null],["a","Audio",A.length,SV.aud],["r","Read",R.length,SV.rd]].forEach(function(d){var b=document.createElement("button");b.type="button";b.className="bmtab"+(filt===d[0]?" on":"");b.innerHTML=(d[3]||"")+"<span></span>";b.lastChild.textContent=d[1]+" "+d[2];b.onclick=function(){filt=d[0];renderBm()};tabs.appendChild(b)});
+ [["all","सभी",all.length,null],["a","ऑडियो",A.length,SV.aud],["r","क़ुरआन ऐप",R.length,SV.rd]].forEach(function(d){var b=document.createElement("button");b.type="button";b.className="bmtab"+(filt===d[0]?" on":"");b.innerHTML=(d[3]||"")+"<span></span>";b.lastChild.textContent=d[1]+" "+d[2];b.onclick=function(){filt=d[0];renderBm()};tabs.appendChild(b)});
  C.appendChild(tabs);
  var L=document.createElement("div"); L.className="ovlist"; var rows=all.filter(function(x){return filt==="all"||x.t===filt}).sort(function(p,q){var a=p.k.split(":"),b=q.k.split(":");return a[0]-b[0]||a[1]-b[1]||(p.t<q.t?-1:1)});
  if(!rows.length){var em=document.createElement("div");em.className="empty";em.textContent="No bookmarks yet. Tap the ★ on a verse to save it.";L.appendChild(em)}
  rows.forEach(function(x){var p=x.k.split(":"),s=+p[0],a=+p[1]; var r=document.createElement("div");r.className="bmrow";
   var ic=document.createElement("span");ic.className="bmic "+x.t;ic.innerHTML=x.t==="a"?SV.aud:SV.rd;
-  var tx=document.createElement("div");tx.className="bmtx";tx.textContent=s+":"+(a===0?"Intro":a)+" · "+suraName(s);var sm=document.createElement("small");sm.textContent=x.t==="a"?"ऑडियो बुकमार्क":"पढ़ने का बुकमार्क (क़ुरआन वेबऐप)";tx.appendChild(sm);
+  var tx=document.createElement("div");tx.className="bmtx";tx.textContent=s+":"+(a===0?"Intro":a)+" · "+suraName(s);var sm=document.createElement("small");sm.textContent=x.t==="a"?"ऑडियो बुकमार्क":"क़ुरआन ऐप बुकमार्क";tx.appendChild(sm);
   var xb=document.createElement("button");xb.type="button";xb.className="bmx";xb.textContent="✕";xb.setAttribute("aria-label","बुकमार्क हटाएँ");
   xb.onclick=function(e){e.stopPropagation(); if(x.t==="a"){bmA=bmA.filter(function(z){return z!==x.k});ls("gaq.abm",JSON.stringify(bmA));pushA();renderStar()}else{pushR(allR().filter(function(z){return z!==x.k}))} renderBm()};
   r.onclick=function(){cl(bmO);jump(s,a)}; r.appendChild(ic);r.appendChild(tx);r.appendChild(xb);L.appendChild(r)});
@@ -875,5 +877,237 @@ loadSuras().then(function(){ return openSura(1,false) }).catch(function(){ setSt
 })();
 </script>
 </section>
-<!-- 
+<!-- GAQ-NEW-PLAYER END -->
+<!-- GAQ-POLISH 19-11-2026 -->
+<style id="gaq-polish">
+#gaq-verses{max-height:72vh;scroll-behavior:smooth;padding-right:4px}
+#gaq-verses .v{border-radius:16px;transition:background .25s,box-shadow .25s,border-color .25s}
+#gaq-verses .v.cur{border:2px solid #d4af37 !important;background:linear-gradient(135deg,rgba(212,175,55,.17),rgba(212,175,55,.05)) !important;box-shadow:0 0 0 4px rgba(212,175,55,.12),0 10px 28px rgba(0,0,0,.25)}
+#gaq-verses .vn{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:26px;padding:0 10px;border-radius:999px;background:rgba(212,175,55,.18);color:#f2dfa8;font-weight:700;font-size:12px}
+#gaq-verses .v.cur .vn{background:#d4af37;color:#1a1530}
+#gaq-verses .t-ar{line-height:2.15}
+#gaq-verses .t-en,#gaq-verses .t-ta,#gaq-verses .t-hi{line-height:1.8}
+#gaq-verses .t-en::before,#gaq-verses .t-ta::before,#gaq-verses .t-hi::before{display:inline-block;margin-right:8px;padding:1px 9px;border:1px solid rgba(212,175,55,.4);border-radius:999px;color:#d4af37;font-size:10.5px;font-weight:700;letter-spacing:.3px;vertical-align:2px;line-height:1.6}
+#gaq-verses .t-en::before{content:"English"}
+#gaq-verses .t-ta::before{content:"தமிழ்"}
+#gaq-verses .t-hi::before{content:"हिन्दी"}
+.gaq-appbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;margin:18px 0 4px;padding:16px 18px;border-radius:18px;border:1px solid rgba(212,175,55,.45);background:linear-gradient(135deg,rgba(212,175,55,.14),rgba(30,40,90,.25));text-decoration:none !important}
+.gaq-appbar b{display:block;color:#f2dfa8;font-size:16px}
+.gaq-appbar small{display:block;color:rgba(247,242,230,.75);font-size:13px;margin-top:3px}
+.gaq-appbar span.go{flex:none;padding:9px 18px;border-radius:999px;background:linear-gradient(135deg,#f2d36b,#d4af37);color:#1a1530;font-weight:700;font-size:14px}
+.gaq-appbar:hover span.go{filter:brightness(1.08)}
+@media(max-width:640px){#gaq-verses{max-height:64vh}.gaq-appbar{flex-direction:column;align-items:flex-start}.gaq-appbar span.go{align-self:stretch;text-align:center}}
+#gaq.gq-light #gaq-verses .vn{background:rgba(160,120,20,.13);color:#7a5a06}
+#gaq.gq-light #gaq-verses .v.cur .vn{background:#b8901f;color:#fff}
+#gaq.gq-light #gaq-verses .v.cur{background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(212,175,55,.06)) !important}
+#gaq.gq-light #gaq-verses .t-en::before,#gaq.gq-light #gaq-verses .t-ta::before,#gaq.gq-light #gaq-verses .t-hi::before{color:#8a6a10;border-color:rgba(138,106,16,.4)}
+#gaq.gq-light .gaq-appbar{background:linear-gradient(135deg,rgba(212,175,55,.16),rgba(255,255,255,.6));border-color:rgba(160,120,20,.45)}
+#gaq.gq-light .gaq-appbar b{color:#5a4206}
+#gaq.gq-light .gaq-appbar small{color:#4a4a5a}
+</style>
+<script>
+(function(){try{
+ var v=document.getElementById("gaq-verses"); if(!v) return;
+ var a=document.createElement("a"); a.className="gaq-appbar"; a.target="_blank"; a.rel="noopener"; a.href="https://godalone.in/quran/";
+ a.innerHTML='<div><b>📖 यह सूरह क़ुरआन ऐप में पढ़ें</b><small>अनुवाद, फ़ुटनोट, खोज और Ask Bayyinah AI — सब एक जगह</small></div><span class="go">ऐप खोलें →</span>';
+ a.addEventListener("click",function(){ try{ var s=+(document.getElementById("gaq-sura").value||1); var m=(document.getElementById("gaq-vpos").textContent||"").match(/(\d+)/); var n=m?+m[1]:1; a.href="https://godalone.in/quran/#/"+s+"/"+(n||1); }catch(e){} });
+ v.parentNode.insertBefore(a, v.nextSibling);
+}catch(e){}})();
+</script>
+
+
+<!-- GAQ-REDESIGN 19-11-2026 -->
+<style id="gaq-redesign">
+/* hero: compact + quick jump buttons */
+.page-hero{padding-top:34px !important;padding-bottom:26px !important;min-height:0 !important}
+.page-hero h1{margin-bottom:6px !important}
+.page-hero .bism{margin:4px 0 0 !important}
+.page-hero .bism-en{margin:2px 0 0 !important}
+.gaq-sub{max-width:640px;margin:10px auto 0;color:rgba(247,242,230,.82);font-size:15px;line-height:1.6}
+.gaq-jump{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+.gaq-jump a{display:inline-flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;border:1px solid rgba(212,175,55,.5);background:rgba(212,175,55,.1);color:#f2dfa8 !important;font-weight:600;font-size:14px;text-decoration:none !important;transition:background .2s,transform .2s}
+.gaq-jump a:hover{background:rgba(212,175,55,.22);transform:translateY(-1px)}
+.gaq-jump a.main{background:linear-gradient(135deg,#f2d36b,#d4af37);color:#1a1530 !important;border-color:transparent}
+html.theme-day .gaq-sub{color:#4a4a5a}
+html.theme-day .gaq-jump a{color:#6b4e05 !important;background:rgba(212,175,55,.12);border-color:rgba(160,120,20,.45)}
+html.theme-day .gaq-jump a.main{color:#1a1530 !important;background:linear-gradient(135deg,#f2d36b,#d4af37)}
+#listen-read,#full-sura,#playlists{scroll-margin-top:120px}
+section.blk{padding-top:34px !important;padding-bottom:34px !important}
+/* player: compact */
+#gaq .gq-top{margin-bottom:10px !important}
+#gaq .gq-top h2{font-size:22px !important;margin:0 0 2px !important}
+#gaq .gq-top p{font-size:13px !important;margin:0 !important}
+#gaq .gq-pick{margin:0 auto 6px !important}
+#gaq .gq-sura{margin:6px 0 !important}
+#gaq #gaq-name{font-size:30px !important;line-height:1.5 !important;margin:0 !important}
+#gaq .gq-langs{margin-top:6px !important;gap:8px !important}
+#gaq .gq-hint{margin:6px 0 10px !important}
+#gaq .gq-player{padding:12px 16px 10px !important}
+#gaq .gq-player .ctl{margin:8px 0 4px !important}
+#gaq .gq-player details.opt{margin-top:2px !important}
+#gaq-verses .v{padding:12px 16px !important;margin-bottom:10px !important}
+#gaq-verses .v::after{content:"";display:block;clear:both}
+#gaq-verses .vn{float:left;margin:6px 12px 4px 0 !important}
+#gaq-verses .t-ar{margin:0 0 8px !important;font-size:30px}
+#gaq-verses .t-en,#gaq-verses .t-ta,#gaq-verses .t-hi{margin:4px 0 !important}
+@media(max-width:640px){#gaq #gaq-name{font-size:26px !important}#gaq-verses .t-ar{font-size:26px}#gaq-verses .v{padding:10px 12px !important}.gaq-jump a{font-size:13px;padding:8px 13px}}
+/* light mode: play icon visible */
+#gaq.gq-light #gaq-play{color:#fff3c4 !important}
+#gaq.gq-light #gaq-play svg{fill:#fff3c4}
+/* full sura section: tidy */
+.audio-page-wrap .gaq-oldt{padding:20px 22px !important;margin-bottom:14px !important}
+.audio-page-wrap .gaq-oldt h2{margin:8px 0 4px !important}
+.audio-page-wrap .lang-tabs{margin:0 0 14px !important}
+.audio-page-wrap .audio-player-box{padding:22px 22px 18px !important}
+.audio-page-wrap .sura-meta{margin-bottom:6px !important}
+.audio-page-wrap .progress-container{margin:10px 0 !important}
+</style>
+<script>
+(function(){try{
+ var bl=document.querySelectorAll("section.blk"), g=document.getElementById("gaq");
+ var lr=g&&g.closest("section"); if(lr) lr.id="listen-read";
+ var fs=document.querySelector(".audio-page-wrap"); fs=fs&&fs.closest("section"); if(fs) fs.id="full-sura";
+ var pl=document.querySelector(".playlist-cards"); pl=pl&&pl.closest("section"); if(pl) pl.id="playlists";
+ var w=document.querySelector(".page-hero .wrap"); if(!w) return;
+ var sub=document.createElement("p"); sub.className="gaq-sub"; sub.textContent="अरबी तिलावत के साथ हिन्दी, अंग्रेज़ी और तमिल आवाज़ — आयत-दर-आयत सुनें और समझें।"; w.appendChild(sub);
+ var j=document.createElement("div"); j.className="gaq-jump"; var h="";
+ if(lr) h+='<a class="main" href="#listen-read">📖 सुनें और पढ़ें</a>';
+ if(fs) h+='<a href="#full-sura">🎙 पूरा सूरह – इंसानी आवाज़</a>';
+ if(pl) h+='<a href="#playlists">▶ YouTube प्लेलिस्ट</a>';
+ h+='<a href="https://godalone.in/quran/" target="_blank" rel="noopener">📱 क़ुरआन ऐप</a>';
+ j.innerHTML=h; w.appendChild(j);
+}catch(e){}})();
+</script>
+
+
+<!-- GAQ-MINI 19-11-2026: floating mini player + lock-screen info -->
+<style id="gaq-mini-css">
+.gaq-mini{position:fixed;left:50%;bottom:16px;z-index:9990;width:min(560px,calc(100% - 20px));display:flex;align-items:center;gap:10px;padding:10px 10px 8px 14px;border-radius:18px;background:rgba(14,20,48,.95);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(212,175,55,.5);box-shadow:0 12px 34px rgba(0,0,0,.45);transform:translate(-50%,150%);opacity:0;pointer-events:none;transition:transform .3s ease,opacity .3s ease}
+.gaq-mini.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.gaq-mini .mbar{position:absolute;left:16px;right:16px;top:3px;height:3px;border-radius:3px;overflow:hidden;background:rgba(255,255,255,.12)}
+.gaq-mini .mbar i{display:block;height:100%;width:0;background:#d4af37;transition:width .3s}
+.gaq-mini .mi{flex:1;min-width:0;cursor:pointer}
+.gaq-mini .mi b{display:block;color:#f2dfa8;font-size:15px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gaq-mini .mi small{display:block;color:rgba(247,242,230,.78);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gaq-mini .mb{display:flex;gap:6px;align-items:center;flex:none}
+.gaq-mini button{width:38px;height:38px;border-radius:50%;border:1px solid rgba(212,175,55,.45);background:rgba(255,255,255,.06);color:#f2dfa8;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.gaq-mini button svg{width:18px;height:18px;fill:currentColor}
+.gaq-mini button.pp{width:48px;height:48px;border:0;background:linear-gradient(135deg,#f2d36b,#d4af37);color:#1a1530}
+.gaq-mini button.pp svg{width:22px;height:22px}
+.gaq-mini button.sm{width:32px;height:32px}
+.gaq-mini button.sm svg{width:14px;height:14px}
+@media(max-width:380px){.gaq-mini{gap:6px;padding-left:10px}.gaq-mini .mb{gap:4px}}
+html.theme-day .gaq-mini{background:rgba(255,250,238,.97);border-color:rgba(160,120,20,.45);box-shadow:0 10px 28px rgba(80,60,10,.18)}
+html.theme-day .gaq-mini .mi b{color:#5a4206}
+html.theme-day .gaq-mini .mi small{color:#4a4a5a}
+html.theme-day .gaq-mini button{color:#6b4e05;background:rgba(212,175,55,.1)}
+html.theme-day .gaq-mini button.pp{color:#1a1530}
+</style>
+<script>
+(function(){try{
+ var $=function(i){return document.getElementById(i)}, g=$("gaq"), pl=g&&g.querySelector(".gq-player");
+ if(!pl||!$("gaq-play")) return;
+ var m=document.createElement("div"); m.className="gaq-mini"; m.setAttribute("role","region"); m.setAttribute("aria-label","Audio Quran");
+ m.innerHTML='<div class="mbar"><i></i></div><div class="mi" title="पूरे प्लेयर पर जाएँ"><b></b><small></small></div><div class="mb"><button type="button" class="ps sm" aria-label="Previous sura"></button><button type="button" class="pv" aria-label="Previous verse"></button><button type="button" class="pp" aria-label="Play / Pause"></button><button type="button" class="nx" aria-label="Next verse"></button><button type="button" class="ns sm" aria-label="Next sura"></button></div>';
+ document.body.appendChild(m);
+ var pv=m.querySelector(".pv"), pp=m.querySelector(".pp"), nx=m.querySelector(".nx"), tb=m.querySelector("b"), ts=m.querySelector("small"), fi=m.querySelector(".mbar i");
+ pv.innerHTML=$("gaq-prev").innerHTML; nx.innerHTML=$("gaq-next").innerHTML;
+ var ps=m.querySelector(".ps"), ns=m.querySelector(".ns"); if($("gaq-psura")){ps.innerHTML=$("gaq-psura").innerHTML; ps.onclick=function(){$("gaq-psura").click()};}else ps.style.display="none"; if($("gaq-nsura")){ns.innerHTML=$("gaq-nsura").innerHTML; ns.onclick=function(){$("gaq-nsura").click()};}else ns.style.display="none";
+ pv.onclick=function(){$("gaq-prev").click()}; nx.onclick=function(){$("gaq-next").click()}; pp.onclick=function(){$("gaq-play").click()};
+ m.querySelector(".mi").onclick=function(){ pl.scrollIntoView({behavior:"smooth",block:"center"}) };
+ var lastMeta="";
+ function sync(){
+  var ph=$("gaq-play").innerHTML, playing=ph.indexOf("M8 5v14l11-7z")<0;
+  pp.innerHTML=ph;
+  var nm=$("gaq-name").textContent||"", mt=($("gaq-meta").textContent||"").split(" · "), vp=$("gaq-vpos").textContent||"";
+  var title=(mt[0]?mt[0]+". ":"")+(mt[1]||nm);
+  tb.textContent=title; ts.textContent=nm+"  ·  "+vp; fi.style.width=$("gaq-fill").style.width||"0";
+  if("mediaSession" in navigator){
+   try{ navigator.mediaSession.playbackState=playing?"playing":"paused"; }catch(e){}
+   var key=title+"|"+vp;
+   if(key!==lastMeta && window.MediaMetadata){ lastMeta=key; try{ navigator.mediaSession.metadata=new MediaMetadata({title:title+" — "+vp,artist:"EkKhuda.org · ऑडियो क़ुरआन",album:nm,artwork:[{src:"https://godalone.in/quran/icons/icon-192.png",sizes:"192x192",type:"image/png"},{src:"https://godalone.in/quran/icons/icon-512.png",sizes:"512x512",type:"image/png"}]}); }catch(e){} }
+  }
+ }
+ var q=0; function later(){ if(q) return; q=requestAnimationFrame(function(){q=0;sync()}); }
+ var mo=new MutationObserver(later);
+ ["gaq-play","gaq-vpos","gaq-name","gaq-meta","gaq-fill"].forEach(function(i){ var e=$(i); if(e) mo.observe(e,{childList:true,subtree:true,characterData:true,attributes:true}); });
+ sync();
+ function place(){
+  var off=16, bw=Math.min(560,innerWidth-20), bl=(innerWidth-bw)/2, br=bl+bw;
+  [].forEach.call(document.querySelectorAll("body > *, body > * > *"),function(e){
+   if(e===m||e.contains(m)) return; var cs=getComputedStyle(e); if(cs.position!=="fixed"||cs.display==="none"||cs.visibility==="hidden") return;
+   var r=e.getBoundingClientRect(); if(!r.width||!r.height||r.height>160) return;
+   if(r.bottom<innerHeight-6) return; if(r.right<bl||r.left>br) return;
+   off=Math.max(off, innerHeight-r.top+10);
+  });
+  m.style.bottom=off+"px";
+ }
+ var vis=true;
+ function upd(){ var r=pl.getBoundingClientRect(); var past=r.bottom<70; if(past&&!m.classList.contains("show")) place(); m.classList.toggle("show",past); }
+ addEventListener("scroll",upd,{passive:true}); addEventListener("resize",function(){place();upd()}); upd();
+}catch(e){}})();
+</script>
+
+
+<!-- GAQ-BM 19-11-2026: bookmarks focus + follow site theme -->
+<style id="gaq-bm-css">
+#gaq #gaq-theme{display:none !important}
+#gaq .vrow{display:flex !important;align-items:center;justify-content:space-between;gap:8px;flex-wrap:nowrap;min-height:36px;margin-top:8px}
+#gaq .vrow > *{position:static !important;transform:none !important;inset:auto !important;margin:0 !important}
+#gaq .vrow > #gaq-bmlist,#gaq .vrow > #gaq-star{position:relative !important}
+#gaq .vrow .gq-vpos{flex:1 1 auto;text-align:center;min-width:0;width:auto !important;max-width:none !important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:560px){#gaq .vrow{gap:6px}#gaq .vrow .gq-vpos{font-size:13px}#gaq #gaq-range{flex:none;padding:0 10px !important;height:34px}}
+#gaq .vrow #gaq-down{display:none !important}
+#gaq .vrow .gaq-bmgrp{display:inline-flex;gap:8px;align-items:center}
+#gaq #gaq-star,#gaq #gaq-bmlist{position:relative;width:auto !important;min-width:34px;height:32px !important;padding:0 12px !important;border-radius:999px !important;display:inline-flex !important;align-items:center;gap:6px;font-size:12.5px;font-weight:700;line-height:1;cursor:pointer;transition:transform .15s,filter .15s}
+#gaq #gaq-star svg,#gaq #gaq-bmlist svg{width:16px;height:16px}
+#gaq #gaq-star{background:rgba(242,201,76,.12) !important;color:#f2d36b !important;border:1px solid rgba(242,201,76,.6) !important}
+#gaq #gaq-star.on{background:linear-gradient(135deg,#f2d36b,#d4af37) !important;color:#1a1530 !important;border-color:transparent !important;box-shadow:0 4px 14px rgba(212,175,55,.35)}
+#gaq.gq-light #gaq-star{color:#8a6408 !important;background:rgba(212,175,55,.12) !important;border-color:rgba(168,123,0,.55) !important}
+#gaq.gq-light #gaq-star.on{color:#1a1530 !important;background:linear-gradient(135deg,#f2d36b,#d4af37) !important;border-color:transparent !important}
+#gaq #gaq-star::after{content:"बुकमार्क"}
+#gaq #gaq-star.on::after{content:"सहेजा गया"}
+#gaq #gaq-bmlist{background:rgba(242,201,76,.12) !important;color:#f2d36b !important;border:1px solid rgba(242,201,76,.6) !important}
+#gaq #gaq-bmlist::after{content:"मेरे बुकमार्क"}
+#gaq #gaq-star:hover,#gaq #gaq-bmlist:hover{transform:translateY(-1px);filter:brightness(1.08)}
+#gaq .gaq-cnt{position:absolute;top:-7px;right:-7px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:#e5484d;color:#fff;font-size:11px;font-weight:800;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 0 0 2px #0e1430}
+#gaq .gaq-cnt[hidden]{display:none}
+#gaq.gq-light #gaq-bmlist{color:#8a6408 !important;background:rgba(212,175,55,.12) !important;border-color:rgba(168,123,0,.55) !important}
+#gaq.gq-light .gaq-cnt{box-shadow:0 0 0 2px #fbf8f3}
+@media(max-width:560px){#gaq #gaq-star::after,#gaq #gaq-bmlist::after{content:none}#gaq #gaq-star,#gaq #gaq-bmlist{width:36px !important;height:36px !important;padding:0 !important;justify-content:center}#gaq #gaq-star svg,#gaq #gaq-bmlist svg{width:18px;height:18px}}
+/* bookmark list: Audio = teal + headphones, Quran App = gold + book */
+.gaov .bmic{width:34px !important;height:34px !important;border-radius:50%}
+.gaov .bmic svg{width:18px;height:18px}
+.gaov .bmic.a{background:rgba(63,224,197,.16);color:#3fe0c5 !important}
+.gaov .bmic.r{background:rgba(242,201,76,.16);color:#f2c94c !important}
+.gaov .bmrow{border-left:3px solid transparent}
+.gaov .bmrow:has(.bmic.a){border-left-color:#3fe0c5}
+.gaov .bmrow:has(.bmic.r){border-left-color:#f2c94c}
+.gaov .bmrow:has(.bmic.a) small{color:#3fe0c5}
+.gaov .bmrow:has(.bmic.r) small{color:#f2c94c}
+.gaov .bmtabs .bmtab:nth-child(2) svg{color:#3fe0c5}
+.gaov .bmtabs .bmtab:nth-child(3) svg{color:#f2c94c}
+.gaov.gq-light .bmic.a{background:rgba(15,143,122,.12);color:#0f8f7a !important}
+.gaov.gq-light .bmic.r{background:rgba(168,123,0,.12);color:#a87b00 !important}
+.gaov.gq-light .bmrow:has(.bmic.a){border-left-color:#0f8f7a}
+.gaov.gq-light .bmrow:has(.bmic.r){border-left-color:#a87b00}
+.gaov.gq-light .bmrow:has(.bmic.a) small{color:#0f8f7a}
+.gaov.gq-light .bmrow:has(.bmic.r) small{color:#a87b00}
+.gaov.gq-light .bmtabs .bmtab:nth-child(2) svg{color:#0f8f7a}
+.gaov.gq-light .bmtabs .bmtab:nth-child(3) svg{color:#a87b00}
+</style>
+<script>
+(function(){try{
+ var g=document.getElementById("gaq"), H=document.documentElement; if(!g) return;
+ function theme(){ g.classList.toggle("gq-light", H.classList.contains("theme-day")); }
+ theme(); new MutationObserver(theme).observe(H,{attributes:true,attributeFilter:["class"]});
+ var L=document.getElementById("gaq-bmlist"); if(!L) return;
+ var c=document.createElement("span"); c.className="gaq-cnt"; c.hidden=true; L.appendChild(c);
+ function arr(k){ try{ var a=JSON.parse(localStorage.getItem(k)||"[]"); return Array.isArray(a)?a.filter(function(x){return typeof x==="string"&&/^\d+:\d+$/.test(x)}):[] }catch(e){ return [] } }
+ function upd(){ var s={},n=0; arr("gaq.abm").forEach(function(x){ if(!s["a"+x]){s["a"+x]=1;n++} }); arr("quranBookmarks").forEach(function(x){ if(!s["r"+x]){s["r"+x]=1;n++} });
+  c.textContent=n>99?"99+":String(n); c.hidden=!n; L.title=L.getAttribute("aria-label")+(n?" ("+n+")":""); }
+ upd(); setInterval(upd,1500); addEventListener("storage",upd); document.addEventListener("click",function(){ setTimeout(upd,300) },true);
+}catch(e){}})();
+</script>
+
 <?php get_footer(); ?>
