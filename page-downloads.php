@@ -96,6 +96,12 @@ get_header();
 <h2>PDF डाउनलोड</h2>
 </div>
 <div class="grid grid-3">
+<a class="card reveal" href="https://drive.google.com/uc?export=download&amp;id=12mFronn0X5m0dvGtHnoEsBoE1KcK4koj" target="_blank" rel="noopener">
+<div class="ico"><img src="<?php echo esc_url('https://godalone.in/wp-content/uploads/downloads/cover-quran-arabic-english.jpg'); ?>" alt="क़ुरआन अरबी-अंग्रेज़ी PDF कवर" loading="lazy" style="width:56px;height:56px;object-fit:cover;object-position:center 30%"></div>
+<h3>क़ुरआन: अरबी-अंग्रेज़ी PDF</h3>
+<p>क़ुरआन: द फ़ाइनल टेस्टामेंट — अरबी मूल पाठ के साथ अधिकृत अंग्रेज़ी अनुवाद, मुफ़्त डाउनलोड।</p>
+<span class="go">अरबी-अंग्रेज़ी PDF डाउनलोड करें →</span>
+</a>
 <a class="card reveal" href="https://kadavulmattum.org/wp-content/uploads/2020/06/Tamil-Quran-Iruthi-vetham.pdf" target="_blank" rel="noopener">
 <div class="ico"><img src="<?php echo esc_url('https://godalone.in/wp-content/uploads/downloads/icon-tamil-quran-pdf.png'); ?>" alt="तमिल क़ुरआन PDF आइकन" loading="lazy"></div>
 <h3>तमिल क़ुरआन PDF</h3>
