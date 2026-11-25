@@ -293,7 +293,7 @@ cite.vref-cite{cursor:pointer;text-decoration:none;border-bottom:1px dashed curr
 <section class="blk" style="padding-bottom:0">
   <div class="wrap">
     <div class="faq-search-wrap">
-      <span class="faq-search-ic">&#2E3B66;</span>
+      <span class="faq-search-ic">&#x1F50D;</span>
       <input type="text" class="faq-search" id="faqSearch" placeholder="सवाल खोजें…" aria-label="सवाल खोजें">
     </div>
     <div class="faq-pills">
