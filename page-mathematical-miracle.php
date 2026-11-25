@@ -93,7 +93,7 @@ table.mm-table td.mm-wrap-cell{white-space:normal;min-width:260px}
     <li><a href="#why-19"><span class="n">8.</span> 19 ही क्यों!</a></li>
     <li><a href="#word-quran"><span class="n">9.</span> शब्द “क़ुरआन”</a></li>
     <li><a href="#strong-foundation"><span class="n">10.</span> एक मज़बूत बुनियाद</a></li>
-    <li><a href="#five-pillars"><span class="n">11.</span> इस्लाम के पाँच स्तंभ</a></li>
+    <li><a href="#five-pillars"><span class="n">11.</span> क़ुरआन के प्रमुख आदेश</a></li>
     <li><a href="#mathematical-structure"><span class="n">12.</span> क़ुरआन की गणितीय संरचना</a></li>
     <li><a href="#numbers-suras-verses"><span class="n">13.</span> सूराओं और आयतों की संख्याएँ</a></li>
     <li><a href="#superhuman-combinations"><span class="n">14.</span> मानवीय सामर्थ्य से परे संख्यात्मक संयोजन</a></li>
@@ -858,7 +858,7 @@ table.mm-table td.mm-wrap-cell{white-space:normal;min-width:260px}
 </div>
 
 <div class="mm-section" id="five-pillars">
-<h2>इस्लाम के पाँच स्तंभ</h2>
+<h2>क़ुरआन के प्रमुख आदेश</h2>
 <p>यद्यपि क़ुरआन हमारे जीवन के सभी पहलुओं को नियंत्रित करने वाले अनेक महत्वपूर्ण आदेश देता है (उदाहरण के लिए देखें 17:22-38), परंपरागत रूप से पाँच बुनियादी “स्तंभों” पर ज़ोर दिया गया है। वे हैं:</p>
 <ol class="mm-facts" style="counter-reset:none">
 <li><b>शहादा:</b>यह गवाही देना कि ख़ुदा के सिवा कोई और पूज्य नहीं।</li>
